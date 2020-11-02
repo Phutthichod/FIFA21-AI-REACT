@@ -23,17 +23,14 @@ const useRowStyles = makeStyles({
   },
 });
 
-function createData(name, position, overall, age, nationality) {
+function createData(name, position, overall, age, nationality, info) {
   return {
     name,
     position,
     overall,
     age,
     nationality,
-    history: [
-      { date: "2020-01-05", customerId: "11091700", amount: 3 },
-      { date: "2020-01-02", customerId: "Anonymous", amount: 1 },
-    ],
+    info: [info],
   };
 }
 
@@ -67,28 +64,26 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                info
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell>Potential</TableCell>
+                    <TableCell>Weight</TableCell>
+                    <TableCell>Height</TableCell>
+                    <TableCell align="right">Wage (eu)</TableCell>
+                    <TableCell align="right">Value (eu)</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
+                  {row.info.map((infoRow, i) => (
+                    <TableRow key={i}>
+                      <TableCell>{infoRow[4]}</TableCell>
+                      <TableCell>{infoRow[0]}</TableCell>
+                      <TableCell>{infoRow[1]}</TableCell>
+                      <TableCell align="right">{infoRow[2]}</TableCell>
+                      <TableCell align="right">{infoRow[3]}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -101,46 +96,21 @@ function Row(props) {
   );
 }
 
-// Row.propTypes = {
-//   row: PropTypes.shape({
-//     calories: PropTypes.number.isRequired,
-//     carbs: PropTypes.number.isRequired,
-//     fat: PropTypes.number.isRequired,
-//     history: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         amount: PropTypes.number.isRequired,
-//         customerId: PropTypes.string.isRequired,
-//         date: PropTypes.string.isRequired,
-//       })
-//     ).isRequired,
-//     name: PropTypes.string.isRequired,
-//     price: PropTypes.number.isRequired,
-//     protein: PropTypes.number.isRequired,
-//   }).isRequired,
-// };
-
-// const rows = [
-//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99),
-//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99),
-//   createData("Eclair", 262, 16.0, 24, 6.0, 3.79),
-//   createData("Cupcake", 305, 3.7, 67, 4.3, 2.5),
-//   createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5),
-// ];
-
 export default function TeamPlayer() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
   const [rows, setRows] = useState([]);
-
   console.log("not effect", state);
   useEffect(() => {
+    console.log(state.pearson);
     const rows = state.pearson.map((item) =>
       createData(
         item.Name,
-        item["Best Position"],
+        item.pearson,
         item.Overall,
         item.Age,
-        item.Nationality
+        item.Nationality,
+        [item.Weight, item.Height, item.Wage, item.Value, item.Potential]
       )
     );
     setRows(rows);
@@ -148,26 +118,32 @@ export default function TeamPlayer() {
   return (
     <>
       {/* <Typography variant="h5">Team Player</Typography> */}
-      <div style={{ marginBottom: 25 }} />
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Pos</TableCell>
-              <TableCell align="right">Ovr</TableCell>
-              <TableCell align="right">Age</TableCell>
-              <TableCell align="right">Nat</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <Row key={row.name} row={row} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {state.loading ? (
+        <Typography>Loading ...</Typography>
+      ) : (
+        <>
+          <div style={{ marginBottom: 25 }} />
+          <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Name</TableCell>
+                  <TableCell align="right">Pear</TableCell>
+                  <TableCell align="right">Ovr</TableCell>
+                  <TableCell align="right">Age</TableCell>
+                  <TableCell align="right">Nat</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <Row key={row.name} row={row} />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
     </>
   );
 }

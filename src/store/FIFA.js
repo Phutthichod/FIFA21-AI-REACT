@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useCallback } from "react";
 const initialState = {
+  loading: true,
   team: "Manchester United",
   form: "433",
   constraints: {
@@ -31,6 +32,8 @@ const FIFAProvider = ({ children }) => {
           return { ...state, constraints: action.data };
         case "set-pearson":
           return { ...state, pearson: action.data };
+        case "set-loading":
+          return { ...state, loading: action.data };
         default:
           return state;
       }

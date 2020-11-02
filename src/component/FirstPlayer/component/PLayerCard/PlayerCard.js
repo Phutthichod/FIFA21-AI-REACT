@@ -5,13 +5,8 @@ export default function PlayerCard({ info }) {
     <>
       <Card style={{ backgroundColor: info.worst_player }}>
         {/* <CardContent> */}
-        <Grid
-          container
-          direction="column"
-          justify="space-between"
-          alignItems="center"
-        >
-          <Grid item xs={4}>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Grid item xs={12}>
             <Grid
               container
               spacing={2}
@@ -19,10 +14,10 @@ export default function PlayerCard({ info }) {
               alignItems="center"
               justify="space-between"
             >
-              <Grid item xs={6}>
+              <Grid item>
                 <Typography>{info.Overall}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item>
                 <Typography>{info.NewPosition}</Typography>
               </Grid>
               {/* <Grid item xs={6}>
@@ -33,10 +28,10 @@ export default function PlayerCard({ info }) {
               </Grid> */}
             </Grid>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12}>
             {info.Name}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12}>
             <Typography>{info.Nationality}</Typography>
           </Grid>
         </Grid>

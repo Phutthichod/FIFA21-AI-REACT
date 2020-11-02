@@ -100,8 +100,10 @@ export default function TeamPlayer() {
   const globalState = useContext(store);
   const { state, dispatch } = globalState;
   const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
   console.log("not effect", state);
   useEffect(() => {
+    setLoading(true);
     console.log("effect", state);
     fetch("http://localhost:5000/player/" + state.team)
       .then((res) => res.json())
@@ -110,7 +112,7 @@ export default function TeamPlayer() {
         const rows = res.map((item) =>
           createData(
             item.Name,
-            item.player_positions,
+            item.player_positions.join(" , "),
             item.Overall,
             item.Age,
             item.Nationality,
@@ -118,31 +120,38 @@ export default function TeamPlayer() {
           )
         );
         setRows(rows);
+        setLoading(false);
       });
   }, [state.team]);
   return (
     <>
-      <Typography variant="h5">Team Player</Typography>
-      <div style={{ marginBottom: 25 }} />
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Pos</TableCell>
-              <TableCell align="right">Ovr</TableCell>
-              <TableCell align="right">Age</TableCell>
-              <TableCell align="right">Nat</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <Row key={row.name} row={row} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {loading ? (
+        <Typography>loading ......</Typography>
+      ) : (
+        <>
+          <Typography variant="h5">Team Player</Typography>
+          <div style={{ marginBottom: 25 }} />
+          <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Name</TableCell>
+                  <TableCell align="right">Pos</TableCell>
+                  <TableCell align="right">Ovr</TableCell>
+                  <TableCell align="right">Age</TableCell>
+                  <TableCell align="right">Nat</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <Row key={row.name} row={row} />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
     </>
   );
 }

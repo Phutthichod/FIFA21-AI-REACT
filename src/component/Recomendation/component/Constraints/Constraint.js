@@ -64,6 +64,16 @@ export default function Constraint() {
     //   body: JSON.stringify(body),
     // }).then((res) => console.log(res));
   };
+  const onClearSearch = () => {
+    min_price.current.value = "";
+    max_price.current.value = "";
+    max_wage.current.value = "";
+    min_wage.current.value = "";
+    max_age.current.value = "";
+    min_age.current.value = "";
+    max_overall.current.value = "";
+    min_overall.current.value = "";
+  };
   return (
     <div style={{ width: "100%" }}>
       <Accordion>
@@ -77,50 +87,84 @@ export default function Constraint() {
         <AccordionDetails>
           <Grid
             container
-            direction="column"
+            direction="row"
             justify="center"
             spacing={2}
-            alignItems="center"
+            alignItems="stretch"
           >
-            <Grid item>
-              <Grid container alignItems="baseline" direction="row">
+            <Grid item xs={3}>
+              <Grid container alignItems="baseline" direction="column">
+                <div style={{ marginRight: 5 }} />
+                <TextField disabled label="Tranferprice" />
+                <div style={{ marginRight: 5 }} />
+                <TextField disabled label="Wage" />
+                <div style={{ marginRight: 5 }} />
+                <TextField disabled label="Age" />
+                <div style={{ marginRight: 5 }} />
+                <TextField disabled label="Overall" />
+                {/* <div style={{ marginRight: 5 }} />
                 <Typography>Tranferprice</Typography>
+                <div style={{ marginRight: 5 }} />
+                <Typography>Wage</Typography>
+                <div style={{ marginRight: 5 }} />
+                <Typography>Age</Typography>
+                <div style={{ marginRight: 5 }} />
+                <Typography>Overall</Typography> */}
+              </Grid>
+            </Grid>
+            <Grid item xs={4}>
+              <Grid container alignItems="baseline" direction="column">
                 <div style={{ marginRight: 5 }} />
                 <TextField inputProps={{ ref: min_price }} label="min" />
                 <div style={{ marginRight: 5 }} />
-                <TextField inputProps={{ ref: max_price }} label="max" />
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container alignItems="baseline" direction="row">
-                <Typography>Wage</Typography>
-                <div style={{ marginRight: 5 }} />
                 <TextField inputProps={{ ref: min_wage }} label="min" />
-                <div style={{ marginRight: 5 }} />
-                <TextField inputProps={{ ref: max_wage }} label="max" />
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container alignItems="baseline" direction="row">
-                <Typography>Age</Typography>
                 <div style={{ marginRight: 5 }} />
                 <TextField inputProps={{ ref: min_age }} label="min" />
                 <div style={{ marginRight: 5 }} />
-                <TextField inputProps={{ ref: max_age }} label="max" />
+                <TextField inputProps={{ ref: min_overall }} label="min" />
               </Grid>
             </Grid>
-            <Grid item>
+            <Grid item xs={4}>
               <Grid container alignItems="baseline" direction="row">
-                <Typography>Overall</Typography>
                 <div style={{ marginRight: 5 }} />
-                <TextField inputProps={{ ref: min_overall }} label="min" />
+                <TextField inputProps={{ ref: max_price }} label="max" />
+                <div style={{ marginRight: 5 }} />
+                <TextField inputProps={{ ref: max_wage }} label="max" />
+                <div style={{ marginRight: 5 }} />
+                <TextField inputProps={{ ref: max_age }} label="max" />
                 <div style={{ marginRight: 5 }} />
                 <TextField inputProps={{ ref: max_overall }} label="max" />
               </Grid>
             </Grid>
-            <Grid container spacing={2} justify="flex-end">
-              <Button onClick={onSearch}>Search</Button>
-              <Button>Clear</Button>
+            {/* <Grid item>
+              <Grid container alignItems="baseline" direction="row">
+                
+            
+               
+              </Grid>
+            </Grid> */}
+            <Grid
+              style={{ marginTop: 15, padding: 15 }}
+              container
+              spacing={2}
+              alignItems="center"
+              justify="flex-end"
+            >
+              <Button
+                style={{ marginRight: 5 }}
+                variant="contained"
+                color="primary"
+                onClick={onSearch}
+              >
+                Search
+              </Button>
+              <Button
+                variant="contained"
+                color="inherit"
+                onClick={onClearSearch}
+              >
+                Clear
+              </Button>
             </Grid>
           </Grid>
         </AccordionDetails>
